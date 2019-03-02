@@ -53,7 +53,9 @@ class HX711:
         # after changing channel or gain it has to wait 50 ms to allow adjustment.
         # the data before is garbage and cannot be used.
         self._read()
-        time.sleep(0.5)
+        time.sleep(0.1)   # if no change wait default convertion time
+        if not self._ready():  # settling time after channel/resoulution change
+	    time.sleep(0.4)
         return True
         
     ############################################################
@@ -73,7 +75,9 @@ class HX711:
         # after changing channel or gain it has to wait 50 ms to allow adjustment.
         # the data before is garbage and cannot be used.
         self._read()
-        time.sleep(0.5)
+        time.sleep(0.1)   # if no change wait default convertion time
+        if not self._ready():  # settling time after channel/resoulution change
+            time.sleep(0.4)
         return True
         
     ############################################################
