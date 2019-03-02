@@ -102,7 +102,8 @@ def main():
     # by default is AccessPoint down
     stop_ap(1)
     
-    debug = settings["debug"] # flag to enable debug mode (HDMI output enabled and no rebooting)
+#    debug = settings["debug"] # flag to enable debug mode (HDMI output enabled and no rebooting)
+    debug = 1
     if not debug:
         # stop HDMI power (save energy)
         print("Shutting down HDMI to save engery.")
