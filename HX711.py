@@ -14,7 +14,7 @@ class HX711:
                      + str(dout_pin) + \
                     ' and pd_sck_pin: ' + str(pd_sck_pin) + '\n')
         
-        self._gain_channel_A = 0    # init to 0 
+        self._gain_channel_A = 128    # chip defaults to channel A with gain 128 after reset/awake
         self._offset_A_128 = 0      # init offset for channel A and gain 128
         self._offset_A_64 = 0       # init offset for channel A and gain 64
         self._offset_B = 0      # init offset for channel B
@@ -22,11 +22,11 @@ class HX711:
         self._last_raw_data_A_64 = 0    # init last data to 0 for channelA and gain 64
         self._last_raw_data_B = 0   # init last data to 0 for channel B 
         self._wanted_channel = ''   # init to empty string
-        self._current_channel = ''  # init to empty string
+        self._current_channel = 'A'  # chip defaults  to channel A after reset/awake
         self._scale_ratio_A_128 = 1 # init to 1
         self._scale_ratio_A_64 = 1  # init to 1
         self._scale_ratio_B = 1     # init to 1
-        self._debug_mode = False    # init debug mode to False
+        self._debug_mode = True     # init debug mode to False
         self._pstdev_filter = True  # pstdev filter is by default ON
         
         GPIO.setmode(GPIO.BCM)          # set GPIO pin mode to BCM numbering
@@ -103,11 +103,11 @@ class HX711:
                     if self._debug_mode:
                         print('Cannot zero() channel and gain mismatch.\n'\
                             + 'current channel: ' + str(self._current_channel)\
-                            + 'gain A: ' + str(self._gain_channel_A) + '\n')
+                            + 'gain A: ' + str(self._gain_channel_A) )
                     return False
             else:
                 if self._debug_mode:
-                    print('zero() got False back.\n')
+                    print('zero() got False back.')
                 return False
         else:
             raise ValueError('In function "zero" parameter "times" can be in range 1 up to 99. '\
@@ -276,7 +276,7 @@ class HX711:
             ready_counter += 1  # increment counter
             if ready_counter == 50: # if counter reached max value then return False
                 if self._debug_mode:
-                    print('self._read() not ready after 40 trials\n')
+                    print('self._read() not ready after 40 trials')
                 return False
         
         # read first 24 bits of data
@@ -307,13 +307,13 @@ class HX711:
                 self._current_channel = 'B' # else set current channel variable
         
         if self._debug_mode:    # print 2's complement value
-            print('Binary value as it has come: ' + str(bin(data_in)) + '\n')
+            print('Binary value as it has come: ' + str(bin(data_in)) )
         
         #check if data is valid
         if (data_in == 0x7fffff or      # 0x7fffff is the highest possible value from hx711
             data_in == 0x800000):   # 0x800000 is the lowest possible value from hx711
             if self._debug_mode:
-                print('Invalid data detected: ' + str(data_in) + '\n')
+                print('Invalid data detected: ' + str(data_in) )
             return False            # rturn false because the data is invalid
         
         # calculate int from 2's complement 
@@ -324,7 +324,7 @@ class HX711:
             signed_data = data_in
         
         if self._debug_mode:
-            print('Converted 2\'s complement value: ' + str(signed_data) + '\n')
+            print('Converted 2\'s complement value: ' + str(signed_data) )
         
         return signed_data
     
