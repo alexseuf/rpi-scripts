@@ -42,7 +42,7 @@ class HX711:
             raise TypeError('dout_pin must be type int. '
                             'Received dout_pin: {}'.format(dout_pin))
 
-        self._gain_channel_A = 0
+        self._gain_channel_A = 128    # chip defaults to channel A with gain 128 after reset/awake
         self._offset_A_128 = 0  # offset for channel A and gain 128
         self._offset_A_64 = 0  # offset for channel A and gain 64
         self._offset_B = 0  # offset for channel B
@@ -50,7 +50,7 @@ class HX711:
         self._last_raw_data_A_64 = 0
         self._last_raw_data_B = 0
         self._wanted_channel = ''
-        self._current_channel = ''
+        self._current_channel = 'A'  # chip defaults  to channel A after reset/awake
         self._scale_ratio_A_128 = 1  # scale ratio for channel A and gain 128
         self._scale_ratio_A_64 = 1  # scale ratio for channel A and gain 64
         self._scale_ratio_B = 1  # scale ratio for channel B
@@ -149,7 +149,7 @@ class HX711:
             else:
                 if self._debug_mode:
                     print('From method "zero()".\n'
-                          'get_raw_data_mean(readings) returned False.\n')
+                          'get_raw_data_mean(readings) returned False.')
                 return True
         else:
             raise ValueError('Parameter "readings" '
@@ -362,7 +362,7 @@ class HX711:
             ready_counter += 1
             if ready_counter == 50:  # if counter reached max value then return False
                 if self._debug_mode:
-                    print('self._read() not ready after 40 trials\n')
+                    print('self._read() not ready after 40 trials')
                 return False
 
         # read first 24 bits of data
@@ -403,7 +403,7 @@ class HX711:
                 self._current_channel = 'B'  # else set current channel variable
 
         if self._debug_mode:  # print 2's complement value
-            print('Binary value as received: {}\n'.format(bin(data_in)))
+            print('Binary value as received: {}'.format(bin(data_in)))
 
         #check if data is valid
         if (data_in == 0x7fffff
@@ -411,7 +411,7 @@ class HX711:
                 data_in == 0x800000
            ):  # 0x800000 is the lowest possible value from hx711
             if self._debug_mode:
-                print('Invalid data detected: {}\n'.format(data_in))
+                print('Invalid data detected: {}'.format(data_in))
             return False  # rturn false because the data is invalid
 
         # calculate int from 2's complement
@@ -424,7 +424,7 @@ class HX711:
             signed_data = data_in
 
         if self._debug_mode:
-            print('Converted 2\'s complement value: {}\n'.format(signed_data))
+            print('Converted 2\'s complement value: {}'.format(signed_data))
 
         return signed_data
 
