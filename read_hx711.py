@@ -48,15 +48,9 @@ def measure_weight(weight_sensor):
         hx.set_scale_ratio(scale_ratio=reference_unit)
         hx.set_offset(offset=offset)
 
-        # improve weight measurement by doing 3 weight measures
-        weightMeasures=[]
-        for i in range(5):
-            weightMeasures.append(hx.get_weight_mean(3))
-
-        # take "best" measure
-        average_weight = int(average(weightMeasures))
-        weight = takeClosest(weightMeasures, average_weight)
-        print(("AVG Weight: " + str(average_weight)))
+        #use outliers_filter and do average over 15 measurements
+        weight = hx.get_data_mean(15)
+        print(("Weight: " + str(weight)))
 
         #weight = hx.get_weight_mean(5) # average from 5 times
         if weight is not 0:
