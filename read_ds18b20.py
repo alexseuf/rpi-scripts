@@ -27,7 +27,7 @@ def read_unfiltered_temperatur_values(sensorIndex, device_id):
     temperature = None
     try:
         temperature = measure_temperature(device_id)
-        print("temperature: " + str(temperature))
+        print(("temperature: " + str(temperature)))
 
         if math.isnan(temperature) == False:
             unfiltered_values[sensorIndex].append(temperature)

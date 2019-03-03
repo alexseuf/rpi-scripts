@@ -35,9 +35,9 @@ def measure_dht(ts_sensor):
                 fields[ts_sensor["ts_field_humidity"]] = humidity
 
         except Exception as e:
-            print("Reading DHT failed (DHT: " + str(dht_type) + "/" + str(sensorDHT) +", GPIO: " + str(pin) + "): " + str(e))
+            print(("Reading DHT failed (DHT: " + str(dht_type) + "/" + str(sensorDHT) +", GPIO: " + str(pin) + "): " + str(e)))
 
     except Exception as e:
-        print("DHT missing param: " + str(e))
+        print(("DHT missing param: " + str(e)))
       
     return fields

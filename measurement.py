@@ -79,7 +79,7 @@ def measurement():
         return json.dumps(ts_fields)
            
     except Exception as e:
-        print("Measurement: " + str(e))
+        print(("Measurement: " + str(e)))
 
 
-print measurement()
+print(measurement())

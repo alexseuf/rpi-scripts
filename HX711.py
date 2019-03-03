@@ -5,7 +5,7 @@ import time
 import numpy as np
 class HX711:
     def __init__(self, dout_pin, pd_sck_pin, gain_channel_A=128, select_channel='A'):
-        if (isinstance(dout_pin, int) and 
+        if (isinstance(dout_pin, int) and
             isinstance(pd_sck_pin, int)):   # just chack of it is integer
             self._pd_sck = pd_sck_pin   # init pd_sck pin number
             self._dout = dout_pin       # init data pin number
@@ -55,7 +55,7 @@ class HX711:
         self._read()
         time.sleep(0.1)   # if no change wait default convertion time
         if not self._ready():  # settling time after channel/resoulution change
-	    time.sleep(0.4)
+            time.sleep(0.4)
         return True
         
     ############################################################
@@ -105,9 +105,9 @@ class HX711:
                     return True
                 else:
                     if self._debug_mode:
-                        print('Cannot zero() channel and gain mismatch.\n'\
+                        print(('Cannot zero() channel and gain mismatch.\n'\
                             + 'current channel: ' + str(self._current_channel)\
-                            + 'gain A: ' + str(self._gain_channel_A) )
+                            + 'gain A: ' + str(self._gain_channel_A) ))
                     return False
             else:
                 if self._debug_mode:
@@ -311,13 +311,13 @@ class HX711:
                 self._current_channel = 'B' # else set current channel variable
         
         if self._debug_mode:    # print 2's complement value
-            print('Binary value as it has come: ' + str(bin(data_in)) )
+            print(('Binary value as it has come: ' + str(bin(data_in)) ))
         
         #check if data is valid
         if (data_in == 0x7fffff or      # 0x7fffff is the highest possible value from hx711
             data_in == 0x800000):   # 0x800000 is the lowest possible value from hx711
             if self._debug_mode:
-                print('Invalid data detected: ' + str(data_in) )
+                print(('Invalid data detected: ' + str(data_in) ))
             return False            # rturn false because the data is invalid
         
         # calculate int from 2's complement 
@@ -328,7 +328,7 @@ class HX711:
             signed_data = data_in
         
         if self._debug_mode:
-            print('Converted 2\'s complement value: ' + str(signed_data) )
+            print(('Converted 2\'s complement value: ' + str(signed_data) ))
         
         return signed_data
     
@@ -360,12 +360,12 @@ class HX711:
                     if (num > min_num and num < max_num):   # check if the number is within pstdev
                         filtered_data.append(num)   # then append to the filtered data list
                 if self._debug_mode:
-                    print('data_list: ' + str(data_list))
-                    print('filtered_data lsit: ' + str(filtered_data))
-                    print('pstdev data: ' + str(data_pstdev))
-                    print('pstdev filtered data: ' + str(np.std(filtered_data)))
-                    print('mean data_list: ' + str(np.mean(data_list)))
-                    print('mean filtered_data: ' + str(np.mean(filtered_data)))
+                    print(('data_list: ' + str(data_list)))
+                    print(('filtered_data lsit: ' + str(filtered_data)))
+                    print(('pstdev data: ' + str(data_pstdev)))
+                    print(('pstdev filtered data: ' + str(np.std(filtered_data))))
+                    print(('mean data_list: ' + str(np.mean(data_list))))
+                    print(('mean filtered_data: ' + str(np.mean(filtered_data))))
                 f_data_mean = np.mean(filtered_data)        # calculate mean from filtered data
                 self._save_last_raw_data(backup_channel, backup_gain, f_data_mean)  # save last data
                 return f_data_mean      # return mean from filtered data

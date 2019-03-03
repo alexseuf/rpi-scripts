@@ -36,7 +36,7 @@ def initBME680():
         
         return 1
     except IOError as ex:
-        print("Reading BME680 failed: IOError Exception: " + str(ex))
+        print(("Reading BME680 failed: IOError Exception: " + str(ex)))
         print("In case of \"[Errno 121] Remote I/O error\": Maybe SD0 is not connected to GND")
     return 0
 
@@ -69,8 +69,8 @@ def burn_in_bme680(burn_in_time):
                 gas = sensor.data.gas_resistance
                 burn_in_data.append(gas)
                 # log time for burning process
-                print("BME680 will be burn in for " + str(
-                    int(round(burn_in_time - (curr_time - start_time)))) + " seconds.")
+                print(("BME680 will be burn in for " + str(
+                    int(round(burn_in_time - (curr_time - start_time)))) + " seconds."))
                 time.sleep(1)
 
         return sum(burn_in_data[-50:]) / 50.0

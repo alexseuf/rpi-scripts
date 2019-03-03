@@ -28,7 +28,7 @@ def measure_weight(weight_sensor):
         pin_sck = int(weight_sensor["pin_sck"])
         channel = weight_sensor["channel"]   
     except Exception as e:
-        print("HX711 missing param: " + str(e))
+        print(("HX711 missing param: " + str(e)))
     
     if 'reference_unit' in weight_sensor:
         reference_unit = weight_sensor["reference_unit"]
@@ -56,7 +56,7 @@ def measure_weight(weight_sensor):
         # take "best" measure
         average_weight = int(average(weightMeasures))
         weight = takeClosest(weightMeasures, average_weight)
-        print("AVG Weight: " + str(average_weight))
+        print(("AVG Weight: " + str(average_weight)))
 
         #weight = hx.get_weight_mean(5) # average from 5 times
         if weight is not 0:
@@ -68,7 +68,7 @@ def measure_weight(weight_sensor):
             weight = weight*-1;
 
     except Exception as e:
-        print("Reading HX711 failed: " + str(e))
+        print(("Reading HX711 failed: " + str(e)))
 
     if 'ts_field' in weight_sensor:
         return ({weight_sensor["ts_field"]: weight})

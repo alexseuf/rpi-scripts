@@ -123,8 +123,8 @@ def start_measurement(measurement_stop):
                     ts_fields.update(tempAndHum)
 
                 # print measurement values for debug reasons
-                for key, value in ts_fields.iteritems():
-                    print key + ": " + str(value)
+                for key, value in ts_fields.items():
+                    print(key + ": " + str(value))
                 
                 try:
                     # update ThingSpeak / transfer values
@@ -161,7 +161,7 @@ def start_measurement(measurement_stop):
         end_time = time.time()
         time_taken = end_time - start_time # time_taken is in seconds
         time_taken_s = float("{0:.2f}".format(time_taken)) # remove microseconds
-        print("Measurement-Script runtime was " + str(time_taken_s) + " seconds.")
+        print(("Measurement-Script runtime was " + str(time_taken_s) + " seconds."))
         
     except MyRebootException as re:
         error_log(re, "Too many ConnectionErrors in a row => Rebooting")
